@@ -159,24 +159,31 @@ body {
 
 @media screen and (max-width: 768px) {
   body {
-    padding: 10px;
+    padding: 5px;
+    background-attachment: fixed; /* மொபைலில் பேக்ரவுண்ட் லேக் ஆவதைத் தவிர்க்க */
   }
   .container {
     width: 100% !important;
-    padding: 15px !important;
     flex-direction: column !important;
+    padding: 10px !important;
+    gap: 15px !important;
   }
   .sidebar {
     width: 100% !important;
-    margin-bottom: 20px !important;
+    margin-bottom: 10px !important;
   }
   .main-content {
     width: 100% !important;
   }
   .product-card {
     width: 100% !important;
+    margin-bottom: 15px !important;
   }
   .comparison-container {
     flex-direction: column !important;
+    gap: 10px !important;
+  }
+  .img-box {
+    height: auto !important;
   }
 }
