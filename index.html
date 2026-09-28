@@ -423,11 +423,11 @@
                 <button onclick="openStep1Modal(event, this)" class="buy-btn" style="border:none; cursor:pointer; width:100%; font-size:16px; padding: 10px; border-radius: 8px;">Get it now</button>
             </div>
 
-            <!-- 7. MOBILE CC -->
+            <!-- 7. Red Blood CC -->
             <div class="product-card" style="margin-top: 25px;" data-link="https://drive.google.com/file/d/1OllZPe23mPLAENTi1IZ974QIGHK2AOsS/view?usp=sharing">
                 <h3>DARKGRID MOBILE LOBY CC</h3>
                 <div class="comparison-container">
-                    <div class="img-box"><img src="without12-cc.jpg" alt="Without CC"><span class="badge without">Without CC</span></div>
+                    <div class="img-box"><img src="without10-cc.jpg" alt="Without CC"><span class="badge without">Without CC</span></div>
                     <div class="img-box"><img src="with13-cc.jpg" alt="With CC"><span class="badge with">With CC</span></div>
                 </div>
                 <div class="price-section"><span class="price">₹29</span><span class="original-price">₹89</span><span class="discount">90% off</span></div>
@@ -494,7 +494,7 @@
 
         let selectedProductLink = "";
         const video = document.getElementById('bg-video');
-        video.volume = 0.1;
+        video.volume = 0.8;
 
         // Toggle Sound On/Off via bottom-right button
         function toggleSound(event) {
@@ -502,7 +502,7 @@
             const soundBtn = document.getElementById('soundToggleBtn');
             if (video.muted) {
                 video.muted = false;
-                video.volume = 0.1;
+                video.volume = 0.8;
                 video.play();
                 soundBtn.innerHTML = "🔊";
             } else {
@@ -558,6 +558,31 @@
             }
         }
     </script>
+<script>
+  const cards = document.querySelectorAll('.product-card');
+  cards.forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      card.style.setProperty('--x', `${x}px`);
+      card.style.setProperty('--y', `${y}px`);
+    });
+  });
+</script>
+
+<audio id="welcomeAudio" src="welcome.mp3"></audio>
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    const audio = document.getElementById('welcomeAudio');
+    audio.play().catch(error => {
+      // Browser autoplay policy-nala block aanal, user screen-la click pan pothu play aaga
+      document.body.addEventListener('click', () => {
+        audio.play();
+      }, { once: true });
+    });
+  });
+</script>
 
 </body>
 </html>
