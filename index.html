@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DARKGRID | CC Shop</title>
+    
+    <!-- Confetti Library for Fireworks Effect -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <!-- Browser tab-la logo vara intha line-ah podunga -->
+    <link rel="icon" type="image/jpg" href="logo.jpg">
+     
+    <!-- Browser tab-la logo vara intha line-ah podunga -->
+    <link rel="icon" type="image/jpg" href="logo.jpg">
+     
+    <!-- Google Font: Poppins for Modern & Stylish Look -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        /* Background Video Styling - Fixed Resolution & Centering */
+        #bg-video {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -1;
+            object-fit: cover;
+            filter: brightness(0.45);
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: #0b0914;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .container {
+            display: flex;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            gap: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Background-matching Purple/Violet Glow Animation */
+        @keyframes glowBorder {
+            0% {
+                border-color: rgba(168, 85, 247, 0.4);
+                box-shadow: 0 0 15px rgba(168, 85, 247, 0.2), inset 0 0 10px rgba(168, 85, 247, 0.05);
+            }
+            50% {
+                border-color: rgba(168, 85, 247, 0.9);
+                box-shadow: 0 0 30px rgba(168, 85, 247, 0.6), inset 0 0 15px rgba(168, 85, 247, 0.25);
+            }
+            100% {
+                border-color: rgba(168, 85, 247, 0.4);
+                box-shadow: 0 0 15px rgba(168, 85, 247, 0.2), inset 0 0 10px rgba(168, 85, 247, 0.05);
+            }
+        }
+
+        /* Sidebar with large logo & matching purple glow */
+        .sidebar {
+            width: 300px;
+            background: rgba(26, 22, 37, 0.45);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(168, 85, 247, 0.5);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+            animation: glowBorder 4s infinite ease-in-out;
+        }
+
+        .profile-img img {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            border: 3px solid #a855f7;
+            object-fit: cover;
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.5);
+        }
+
+        .sidebar h2 {
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .tagline {
+            font-size: 13px;
+            color: #b4b0c8;
+            margin-top: 8px;
+            line-height: 1.5;
+            font-weight: 400;
+        }
+
+        /* Social Links styling with Real Website Icons */
+        .social-links {
+            margin-top: 22px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: rgba(168, 85, 247, 0.2);
+            color: white;
+            padding: 11px 14px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            border: 1px solid rgba(168, 85, 247, 0.4);
+            transition: 0.3s;
+        }
+
+        .social-btn:hover {
+            background: rgba(168, 85, 247, 0.4);
+        }
+
+        .social-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        .main-content {
+            flex: 1;
+        }
+
+        /* Product Cards with Matching Purple Glow */
+        .product-card {
+            background: rgba(26, 22, 37, 0.45);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(168, 85, 247, 0.5);
+            border-radius: 15px;
+            padding: 20px;
+            animation: glowBorder 4s infinite ease-in-out;
+        }
+
+        .product-card h3 {
+            font-weight: 600;
+            font-size: 18px;
+            margin-bottom: 12px;
+        }
+
+        /* Bottom Right Transparent Sound Control Button */
+        .sound-toggle-btn {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background: rgba(26, 22, 37, 0.7);
+            backdrop-filter: blur(5px);
+            border: 2px solid rgba(168, 85, 247, 0.7);
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 999;
+            font-size: 18px;
+            box-shadow: 0 0 12px rgba(168, 85, 247, 0.4);
+            transition: 0.3s;
+        }
+
+        .sound-toggle-btn:hover {
+            background: rgba(168, 85, 247, 0.8);
+            transform: scale(1.05);
+        }
+
+        /* Modal Popup Styling */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.85);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #1a1625;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            width: 380px;
+            border: 1px solid #a855f7;
+            color: white;
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal-content h3 {
+            font-weight: 600;
+        }
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #aaa;
+        }
+        .close-btn:hover { color: white; }
+        
+        .qr-img {
+            width: 140px;
+            height: 140px;
+            border-radius: 10px;
+            margin: 8px auto;
+            background: white;
+            padding: 4px;
+            display: block;
+        }
+        
+        .form-input {
+            width: 85%;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 8px;
+            border: 1px solid #a855f7;
+            background: #110c1d;
+            color: white;
+            text-align: center;
+            font-size: 14px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .whatsapp-btn {
+            display: inline-block;
+            background-color: #25D366;
+            color: white;
+            padding: 9px 12px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 6px;
+            width: 90%;
+            font-size: 13px;
+        }
+        .whatsapp-btn:hover { background-color: #20ba5a; }
+        
+        .divider {
+            margin: 12px 0;
+            border-top: 1px solid #374151;
+        }
+        
+        .download-box {
+            display: none;
+            margin-top: 12px;
+            background: rgba(34, 197, 94, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #22c55e;
+        }
+        .download-btn {
+            display: inline-block;
+            background-color: #22c55e;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 8px;
+            font-size: 14px;
+        }
+        .download-btn:hover { background-color: #16a34a; }
+        .error-msg {
+            color: #ef4444;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+        .buy-btn {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            background-color: #a855f7;
+            color: white;
+        }
+        .buy-btn:hover {
+            background-color: #9333ea;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Video with Auto-play and Muted support -->
+    <video id="bg-video" autoplay muted loop playsinline>
+        <source src="background.mp4" type="video/mp4">
+    </video>
+
+    <!-- Bottom Right Transparent Sound Control Button -->
+    <div id="soundToggleBtn" class="sound-toggle-btn" onclick="toggleSound(event)" title="Mute/Unmute">
+        🔇
+    </div>
+
+    <div class="container">
+        <!-- Sidebar / Profile Section -->
+        <div class="sidebar">
+            <div class="profile-img">
+                <img src="logo.jpg" alt="Logo" onerror="this.src='https://via.placeholder.com/130/1a1625/a855f7?text=DARKGRID'">
+            </div>
+            <h2>DARKGRID</h2>
+            <p class="tagline">Welcome to DARKGRID CC Shop. Premium Free Fire Color Corrections for Next-Level Edits.</p>
+            
+            <!-- Instagram & Discord Links with Real Website Icons -->
+            <div class="social-links">
+                <a href="https://www.instagram.com/aimbot_exe_4x?stkn=MTJ4eHZiaWhqNXJ4Ng==" target="_blank" class="social-btn">
+                    <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                    Instagram
+                </a>
+                <a href="https://discord.gg/9kTQxaDXq" target="_blank" class="social-btn">
+                    <svg viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.927 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+                    Discord
+                </a>
+            </div>
+        </div>
+
+        <!-- Main Products Section -->
+        <div class="main-content">
+            
+            <!-- 1. Cinematic CC v3 -->
+            <div class="product-card" data-link="https://drive.google.com/file/d/1CoQMtKzj_NZyQJYFNo3TOl2JHXe8YiFA/view?usp=drive_link">
+                <h3>DARKGRID LIGHT PC CC</h3>
+                <div class="comparison-container">
+                    <div class="img-box"><img src="without-cc.jpg" alt="Without CC"><span class="badge without">Without CC</span></div>
+                    <div class="img-box"><img src="with-cc.jpg" alt="With CC"><span class="badge with">With CC</span></div>
+                </div>
+                <div class="price-section"><span class="price">₹100</span><span class="original-price">₹199</span><span class="discount">50% off</span></div>
+                <button onclick="openStep1Modal(event, this)" class="buy-btn" style="border:none; cursor:pointer; width:100%; font-size:16px; padding: 10px; border-radius: 8px;">Get it now</button>
+            </div>
+
+            <!-- 2. Pro Gaming CC v1 -->
+            <div class="product-card" style="margin-top: 25px;" data-link="https://drive.google.com/file/d/1Cp5euSGvWG0c4i9bG50uh6V0GogzJVPe/view?usp=drive_link">
+                <h3>DARKGRID GAMING PC CC </h3>
+                <div class="comparison-container">
+                    <div class="img-box"><img src="without1-cc.jpg" alt="Without CC"><span class="badge without">Without CC</span></div>
+                    <div class="img-box"><img src="with2-cc.jpg" alt="With CC"><span class="badge with">With CC</span></div>
+                </div>
+                <div class="price-section"><span class="price">₹149</span><span class="original-price">₹249</span><span class="discount">50% off</span></div>
+                <button onclick="openStep1Modal(event, this)" class="buy-btn" style="border:none; cursor:pointer; width:100%; font-size:16px; padding: 10px; border-radius: 8px;">Get it now</button>
+            </div>
+
+            <!-- 3. Ultra HDR CC v2 -->
+            <div class="product-card" style="margin-top: 25px;" data-link="https://drive.google.com/file/d/130FGo1W1vvKYtJlo7Wvvow6eDv8-9gOY/view?usp=drive_link">
+                <h3>DARKGRID ULTRA PC CC </h3>
+                <div class="comparison-container">
+                    <div class="img-box"><img src="without3-cc.jpg" alt="Without CC"><span class="badge without">Without CC</span></div>
+                    <div class="img-box"><img src="with4-cc.jpg" alt="With CC"><span class="badge with">With CC</span></div>
+                </div>
+                <div class="price-section"><span class="price">₹129</span><span class="original-price">₹299</span><span class="discount">50% off</span></div>
+                <button onclick="openStep1Modal(event, this)" class="buy-btn" style="border:none; cursor:pointer; width:100%; font-size:16px; padding: 10px; border-radius: 8px;">Get it now</button>
+            </div>
+
+            <!-- 4. Neon Cyber CC -->
+            <div class="product-card" style="margin-top: 25px;" data-link="https://drive.google.com/file/d/1NRTtvNjCaPsSGXRC-LhcgAeU0PUfoX5h/view?usp=sharing">
+                <h3>DARKGRID HDR PC CC</h3>
+                <div class="comparison-container">
+                    <div class="img-box"><img src="without5-cc.jpg" alt="Without CC"><span class="badge without">Without CC</span></div>
+                    <div class="img-box"><img src="with6-cc.jpg" alt="With CC"><span class="badge with">With CC</span></div>
+                </div>
+                <div class="price-section"><span class="price">₹39</span><span class="original-price">₹59</span><span class="discount">50% off</span></div>
+                <button onclick="openStep1Modal(event, this)" class="buy-btn" style="border:none; cursor:pointer; width:100%; font-size:16px; padding: 10px; border-radius: 8px;">Get it now</button>
+            </div>
+
+            <!-- 5. Dark Moody CC -->
+            <div class="product-card" style="margin-top: 25px;" data-link="https://drive.google.com/file/d/1exrbZX8QcQYzOOvNIq__0qW_QKfbBBTp/view?usp=sharing">
+                <h3>DARKGRID IN GAME PC CC</h3>
+                <div class="comparison-container">
+                    <div class="img-box"><img src="without7-cc.jpg" alt="Without CC"><span class="badge without">Without CC</span></div>
+                    <div class="img-box"><img src="with8-cc.jpg" alt="With CC"><span class="badge with">With CC</span></div>
+                </div>
+                <div class="price-section"><span class="price">₹79</span><span class="original-price">₹129</span><span class="discount">50% off</span></div>
+                <button onclick="openStep1Modal(event, this)" class="buy-btn" style="border:none; cursor:pointer; width:100%; font-size:16px; padding: 10px; border-radius: 8px;">Get it now</button>
+            </div>
+
+            <!-- 6. Anime Glow CC -->
+            <div class="product-card" style="margin-top: 25px;" data-link="https://drive.google.com/file/d/1JuBH0cVxfZ9KBHKRO5Kuji6hlQj28Zvf/view?usp=sharing">
+                <h3>DARKGRID GOLD IN GAME CC</h3>
+                <div class="comparison-container">
+                    <div class="img-box"><img src="without8-cc.jpg" alt="Without CC"><span class="badge without">Without CC</span></div>
+                    <div class="img-box"><img src="with9-cc.jpg" alt="With CC"><span class="badge with">With CC</span></div>
+                </div>
+                <div class="price-section"><span class="price">₹159</span><span class="original-price">₹299</span><span class="discount">50% off</span></div>
+                <button onclick="openStep1Modal(event, this)" class="buy-btn" style="border:none; cursor:pointer; width:100%; font-size:16px; padding: 10px; border-radius: 8px;">Get it now</button>
+            </div>
+
+            <!-- 7. Red Blood CC -->
+            <div class="product-card" style="margin-top: 25px;" data-link="https://drive.google.com/file/d/1-uj4WzqlxBN7un25sT0B26QgMX8wrY3J/view?usp=drive_link">
+                <h3>DARKGRID GAME CC</h3>
+                <div class="comparison-container">
+                    <div class="img-box"><img src="without10-cc.jpg" alt="Without CC"><span class="badge without">Without CC</span></div>
+                    <div class="img-box"><img src="with11-cc.jpg" alt="With CC"><span class="badge with">With CC</span></div>
+                </div>
+                <div class="price-section"><span class="price">₹39</span><span class="original-price">₹89</span><span class="discount">90% off</span></div>
+                <button onclick="openStep1Modal(event, this)" class="buy-btn" style="border:none; cursor:pointer; width:100%; font-size:16px; padding: 10px; border-radius: 8px;">Get it now</button>
+            </div>
+
+            
+
+    <!-- STEP 1: Email Verification Modal -->
+    <div id="step1Modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeAllModals()">&times;</span>
+            <h3>Enter Your Email</h3>
+            <p style="font-size: 12px; color: #b4b0c8; margin-top: 5px;">Please enter a valid Gmail ID to proceed</p>
+            
+            <form onsubmit="goToStep2(event)">
+                <input type="text" id="userEmail" class="form-input" placeholder="example@gmail.com" required>
+                <br>
+                <p id="emailErrorMsg" class="error-msg">Please enter a valid email address (e.g., name@gmail.com)!</p>
+                <button type="submit" class="buy-btn" style="border:none; cursor:pointer; margin-top:15px; width:85%; font-size:14px; padding:10px; display:block; margin-left:auto; margin-right:auto; border-radius: 8px;">Continue to Payment</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- STEP 2: QR Code, Screenshot & PIN Verification Modal -->
+    <div id="step2Modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeAllModals()">&times;</span>
+            <h3>Scan & Pay</h3>
+            <p style="font-size: 12px; color: #b4b0c8; margin-top: 2px;">Scan using GPay, PhonePe or Paytm</p>
+            
+            <img src="qr-code.jpg" alt="Payment QR Code" class="qr-img" onerror="this.src='https://via.placeholder.com/140/ffffff/000000?text=QR+Code'">
+            
+            <p style="font-size: 11px; color: #fbbf24; margin-top: 3px; font-weight: bold;">Read Instructions:</p>
+            <p style="font-size: 11px; color: #fbbf24; margin-top: 3px;">1. Send payment screenshot in WhatsApp group:</p>
+            <a href="https://chat.whatsapp.com/Jy2nNaSBPxi88pFGvNFLVd" target="_blank" class="whatsapp-btn">Join Group & Send Screenshot</a>
+            
+            <div class="divider"></div>
+
+            <p style="font-size: 11px; color: #fbbf24;">2. Enter Owner PIN below to unlock CC file:</p>
+            
+            <input type="text" id="secretPin" class="form-input" placeholder="Enter Owner PIN">
+            <br>
+            <button onclick="verifyPin()" class="buy-btn" style="border:none; cursor:pointer; margin-top:10px; width:85%; font-size:14px; padding:10px; display:block; margin-left:auto; margin-right:auto; border-radius: 8px;">Verify & Unlock</button>
+            
+            <p id="errorMsg" class="error-msg">Incorrect PIN or PIN already used!</p>
+
+            <div id="downloadSection" class="download-box">
+                <p style="color: #22c55e; font-weight: 600; font-size: 13px; margin-bottom: 3px;">Payment Verified Successfully!</p>
+                <a id="finalDownloadBtn" href="#" target="_blank" class="download-btn">Download CC File (.ffx)</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let validPins = [
+            "k8#z2", "m9$v4", "x4$p9", "7v#m2", "q3#w8",
+            "z5#p1", "h2$k9", "p3#x7", "v8$m1", "t2#9k",
+            "a1#b2", "c3$d4", "e5#f6", "g7$h8", "i9#j0",
+            "l2#k3", "n4$m5", "p6#o7", "r8$q9", "s1#t2",
+            "u3$v4", "w5#x6", "y7$z8", "b9#a0", "d2$c3",
+            "f4#e5", "h6$g7", "j8#i9", "l1$k2", "n3#m4"
+        ];
+
+        let selectedProductLink = "";
+        const video = document.getElementById('bg-video');
+        video.volume = 0.1;
+
+        // Toggle Sound On/Off via bottom-right button
+        function toggleSound(event) {
+            event.stopPropagation();
+            const soundBtn = document.getElementById('soundToggleBtn');
+            if (video.muted) {
+                video.muted = false;
+                video.volume = 0.1;
+                video.play();
+                soundBtn.innerHTML = "🔊";
+            } else {
+                video.muted = true;
+                soundBtn.innerHTML = "🔇";
+            }
+        }
+
+        function openStep1Modal(event, button) {
+            event.stopPropagation();
+            const card = button.closest('.product-card');
+            selectedProductLink = card.getAttribute('data-link');
+
+            document.getElementById('step1Modal').style.display = 'flex';
+            document.getElementById('userEmail').value = '';
+            document.getElementById('emailErrorMsg').style.display = 'none';
+        }
+
+        function closeAllModals() {
+            document.getElementById('step1Modal').style.display = 'none';
+            document.getElementById('step2Modal').style.display = 'none';
+        }
+
+        function goToStep2(event) {
+            event.preventDefault();
+            const emailField = document.getElementById('userEmail');
+            const strictEmailPattern = /^[a-zA-Z0-9._%+-]{3,}@gmail\.com$/;
+
+            if (strictEmailPattern.test(emailField.value.trim())) {
+                document.getElementById('emailErrorMsg').style.display = 'none';
+                document.getElementById('step1Modal').style.display = 'none';
+                document.getElementById('step2Modal').style.display = 'flex';
+                document.getElementById('secretPin').value = '';
+                document.getElementById('errorMsg').style.display = 'none';
+                document.getElementById('downloadSection').style.display = 'none';
+            } else {
+                document.getElementById('emailErrorMsg').style.display = 'block';
+            }
+        }
+
+        function verifyPin() {
+            const enteredPin = document.getElementById('secretPin').value.trim();
+            const index = validPins.indexOf(enteredPin);
+
+            if (index !== -1) {
+                document.getElementById('errorMsg').style.display = 'none';
+                document.getElementById('finalDownloadBtn').href = selectedProductLink;
+                document.getElementById('downloadSection').style.display = 'block';
+                validPins.splice(index, 1);
+            } else {
+                document.getElementById('errorMsg').style.display = 'block';
+                document.getElementById('downloadSection').style.display = 'none';
+            }
+        }
+    </script>
+
+</body>
+</html>
